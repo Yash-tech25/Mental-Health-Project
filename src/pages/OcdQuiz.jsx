@@ -1,127 +1,409 @@
-import React, { useState, useEffect } from 'react';
-import {OcdResult} from "../components/QuizResult";
+import { useState } from "react";
 
-function OcdQuiz() {
+import {
+  OcdResult
+} from "../components/QuizResult";
+
+
+const OcdQuiz = () => {
+
+  // =========================================================
+  // QUESTIONS
+  // =========================================================
 
   const questions = [
+
     {
-      question: 'Do you have an intense fear of germs or contaminants?',
-      answers: ["Never", "Rarely", "Sometimes", "Often", "Always"],
+      question:
+        "Do you have an intense fear of germs or contaminants?",
+
+      answers: [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
     },
+
     {
-      question: 'Do you feel the need to check things repeatedly, such as locks or switches?',
-      answers: ["Never", "Rarely", "Sometimes", "Often", "Always"],
+      question:
+        "Do you feel the need to check things repeatedly, such as locks or switches?",
+
+      answers: [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
     },
+
     {
-      question: 'Do you have a strict need for things to be orderly or symmetrical?',
-      answers: ["Never", "Rarely", "Sometimes", "Often", "Always"],
+      question:
+        "Do you have a strict need for things to be orderly or symmetrical?",
+
+      answers: [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
     },
+
     {
-      question: "Do you feel the need to perform repetitive behaviors in order to reduce your anxiety?",
-      answers: ["Never", "Rarely", "Sometimes", "Often", "Always"]
-    }, {
-      question: 'Do your obsessions and compulsions take up a lot of your time?',
-      answers: ["Never", "Rarely", "Sometimes", "Often", "Always"],
-    }, {
-      question: "Do you feel like you can't control your obsessions and compulsions?",
-      answers: ["Never", "Rarely", "Sometimes", "Often", "Always"],
-    }, {
-      question: "Do you have thoughts of contamination?",
-      answers: ["Never", "Rarely", "Sometimes", "Often", "Always"],
-    }, {
-      question: "Do you try to resist your obsessions or compulsions, but find it difficult to do so?",
-      answers: ["Never", "Rarely", "Sometimes", "Often", "Always"],
-    }, {
-      question: "Do you have thoughts of symmetry or order?",
-      answers: ["Never", "Rarely", "Sometimes", "Often", "Always"],
-    }, {
-      question: "Do you have thoughts of needing to repeat words or phrases?",
-      answers: ["Never", "Rarely", "Sometimes", "Often", "Always"],
-    }
+      question:
+        "Do you feel the need to perform repetitive behaviors in order to reduce your anxiety?",
+
+      answers: [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+    },
+
+    {
+      question:
+        "Do your obsessions and compulsions take up a lot of your time?",
+
+      answers: [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+    },
+
+    {
+      question:
+        "Do you feel like you can't control your obsessions and compulsions?",
+
+      answers: [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+    },
+
+    {
+      question:
+        "Do you have thoughts of contamination?",
+
+      answers: [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+    },
+
+    {
+      question:
+        "Do you try to resist your obsessions or compulsions, but find it difficult to do so?",
+
+      answers: [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+    },
+
+    {
+      question:
+        "Do you have thoughts of symmetry or order?",
+
+      answers: [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+    },
+
+    {
+      question:
+        "Do you have thoughts of needing to repeat words or phrases?",
+
+      answers: [
+        "Never",
+        "Rarely",
+        "Sometimes",
+        "Often",
+        "Always"
+      ],
+    },
+
   ];
-  const [score, setScore] = useState(0);
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [clickedOption, setClickedOption] = useState(0);
-  const [showResult, setShowResult] = useState(false);
+
+
+  // =========================================================
+  // STATES
+  // =========================================================
+
+  const [
+    score,
+    setScore
+  ] = useState(0);
+
+
+  const [
+    currentQuestion,
+    setCurrentQuestion
+  ] = useState(0);
+
+
+  const [
+    clickedOption,
+    setClickedOption
+  ] = useState(0);
+
+
+  // =========================================================
+  // QUIZ COMPLETE
+  // =========================================================
+
+  const isQuizOver =
+    currentQuestion ===
+    questions.length;
+
+
+  // =========================================================
+  // CHANGE QUESTION
+  // =========================================================
 
   const changeQuestion = () => {
-    updateScore();
-    if (currentQuestion < questions.length) {
-      setCurrentQuestion(currentQuestion + 1);
-      setClickedOption(0);
-    } else {
-      setShowResult(true);
+
+    if (
+      clickedOption === 0
+    ) {
+
+      return;
+
     }
+
+
+    setScore(
+      (previousScore) =>
+        previousScore +
+        clickedOption
+    );
+
+
+    setCurrentQuestion(
+      (previousQuestion) =>
+        previousQuestion + 1
+    );
+
+
+    setClickedOption(
+      0
+    );
+
   };
 
-  const updateScore = () => {
-    const answerValue = clickedOption; // Use the clicked option as the answer value
 
-    setScore((prevScore) => prevScore + answerValue);
-  };
+  // =========================================================
+  // RESTART QUIZ
+  // =========================================================
 
   const handleResetClick = () => {
-    setScore(0);
-    setCurrentQuestion(0);
-    setShowResult(false);
-    setClickedOption(0);
+
+    setScore(
+      0
+    );
+
+    setCurrentQuestion(
+      0
+    );
+
+    setClickedOption(
+      0
+    );
+
   };
 
-  const isQuizOver = currentQuestion === questions.length;
-  const handleSubmit = () => {
-    const handleSubmit = () => {
-      // Calculate the score based on the selected options
-      const answerValue = clickedOption;
-      
-      // Add the score for the current question
-      setScore((prevScore) => prevScore + answerValue);
-      
-      // Hide the submit button
-      document.getElementById("submit-button").style.display = "block;";
-    };
-    
-  }; 
+
+  // =========================================================
+  // PAGE
+  // =========================================================
+
   return (
+
     <div className="commonQuiz">
+
       <div className="container">
-        <h2>OCD TEST</h2>
+
+
+        {/* ===================================================
+            TITLE
+        =================================================== */}
+
+        <h2>
+          OCD TEST
+        </h2>
+
+
         {!isQuizOver ? (
+
           <div className="Quiz-question-option">
-            <h3>{questions[currentQuestion].question}</h3>
+
+
+            {/* ===============================================
+                QUESTION
+            =============================================== */}
+
+            <h3>
+
+              {
+                questions[
+                  currentQuestion
+                ].question
+              }
+
+            </h3>
+
+
+            {/* ===============================================
+                OPTIONS
+            =============================================== */}
+
             <p>
-              {questions[currentQuestion].answers.map((answer, answerIndex) => (
-                <button
-                  className={`option-btn ${
-                    clickedOption === answerIndex + 1 ? "checked" : null
-                  }`}
-                  key={answerIndex}
-                  onClick={() => setClickedOption(answerIndex + 1)}
-                >
-                  {answer}
-                </button>
-              ))}
+
+              {
+                questions[
+                  currentQuestion
+                ].answers.map(
+                  (
+                    answer,
+                    answerIndex
+                  ) => {
+
+                    const optionValue =
+                      answerIndex + 1;
+
+
+                    return (
+
+                      <button
+                        type="button"
+                        className={
+                          `option-btn ${
+                            clickedOption ===
+                            optionValue
+                              ? "checked"
+                              : ""
+                          }`
+                        }
+                        key={
+                          answer
+                        }
+                        onClick={() =>
+                          setClickedOption(
+                            optionValue
+                          )
+                        }
+                      >
+
+                        {answer}
+
+                      </button>
+
+                    );
+
+                  }
+                )
+              }
+
             </p>
-            <input type="button" value="Next" id="next-button" onClick={changeQuestion} />
+
+
+            {/* ===============================================
+                NEXT BUTTON
+            =============================================== */}
+
+            <input
+              type="button"
+              value={
+                currentQuestion ===
+                questions.length - 1
+                  ? "View Result"
+                  : "Next"
+              }
+              id="next-button"
+              onClick={
+                changeQuestion
+              }
+              disabled={
+                clickedOption === 0
+              }
+            />
+
           </div>
+
         ) : (
+
           <div>
-            <h2 className="result-heading">Result</h2>
-            <h3 className="score">{score}</h3>
-            {isQuizOver && !showResult ?  (
-            <button onClick={handleSubmit} id="submit-button"className='button'>
-              Submit
-              </button>
-              ) : null}
-            
-            {score > 1 ? <OcdResult score={score} /> : null}
-            <button onClick={handleResetClick} id="retake-button" className="button">
+
+
+            {/* ===============================================
+                RESULT
+            =============================================== */}
+
+            <h2 className="result-heading">
+              Result
+            </h2>
+
+
+            <h3 className="score">
+              {score}
+            </h3>
+
+
+            <OcdResult
+              score={
+                score
+              }
+            />
+
+
+            {/* ===============================================
+                RESTART
+            =============================================== */}
+
+            <button
+              type="button"
+              onClick={
+                handleResetClick
+              }
+              id="retake-button"
+              className="button"
+            >
+
               Restart Quiz
+
             </button>
+
           </div>
+
         )}
+
       </div>
+
     </div>
+
   );
+
 };
+
 
 export default OcdQuiz;

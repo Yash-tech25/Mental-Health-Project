@@ -1,42 +1,46 @@
-import React, { useEffect, useRef } from 'react';
 
-const MentalHealthInitiative = ({ text, image, link, isTextOnLeft, backgroundColor }) => {
-  const elementRef = useRef(null);
 
-  const renderFormattedText = () => {
-    const parts = text.split("[italic]");
-    return (
-      <>
-        {parts.map((part, index) =>
-          index % 2 === 0 ? (
-            <span key={index}>{part}</span>
-          ) : (
-            <span key={index} style={{ fontWeight: 'bold', marginLeft: '-20px', marginBottom: '40px'}}>
-              <a href={link} target="_blank" rel="noopener noreferrer">
-                {part} <span role="img" aria-label="link icon" style={{ fontSize: '20px' }}>🔗</span>
-              </a>
-            </span>
-          )
-        )}
-      </>
-    );
-  };
-
-  const textStyle = {
-    fontSize: '18px',
-    color: '#2a2450',
-  };
-
+const MentalHealthInitiative = ({
+  title,
+  text,
+  image,
+  alt,
+  link,
+  reverse,
+}) => {
   return (
-    <div className={`grid-row`} style={{ backgroundColor, width: '100%' }}>
-      <div className={`grid-text`} ref={elementRef} style={textStyle}>
-        {renderFormattedText()}
-      </div>
-      <div className={`grid-image`} ref={elementRef} style={{ width: '100%' }}>
-        <a href={link} target="_blank" rel="noopener noreferrer">
-          <img src={image} alt="Initiative" />
+    <div className={`grid-row ${reverse ? "reverse" : ""}`}>
+
+      <div className="grid-text">
+
+        <span className="initiative-label">
+          MENTAL WELLNESS INITIATIVE
+        </span>
+
+        <h2>{title}</h2>
+
+        <p>{text}</p>
+
+        <a
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="initiative-button"
+        >
+          Visit Initiative
+          <span aria-hidden="true">→</span>
         </a>
+
       </div>
+
+      <div className="grid-image">
+        <img
+          src={image}
+          alt={alt}
+          loading="lazy"
+        />
+      </div>
+
     </div>
   );
 };

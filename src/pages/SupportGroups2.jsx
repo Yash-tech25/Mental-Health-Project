@@ -1,61 +1,211 @@
-import React from "react";
-
 const SupportGroups2 = () => {
-  const group2 = [
-    {
-      type: "article",
 
-      link: "https://www.peakmind.in/contact",
-      url: "https://uploads-ssl.webflow.com/6239d45df8c8f750082d66ea/62fba161f8884c2e80b96b7b_PEAKMINDLOGONEWres2-p-500.png",
-    },
-    {
-      type: "article",
-
-      link: "https://mpowerminds.com/contact",
-
-      url: "https://mpowerminds.com/assets/img/root/Mpower%20Logo-04.svg",
-    },
+  const organisations = [
 
     {
-      type: "article",
+      title:
+        "PeakMind",
 
-      link: "http://http://kashmirlifeline.org/contact.php.org/",
+      category:
+        "Mental Wellness",
 
-      url: "http://kashmirlifeline.org/static/img/logos/logo-kll.png",
+      description:
+        "Explore mental wellness resources and ways to connect with support focused on emotional well-being and personal development.",
+
+      link:
+        "https://www.peakmind.in/contact",
+
+      image:
+        "https://uploads-ssl.webflow.com/6239d45df8c8f750082d66ea/62fba161f8884c2e80b96b7b_PEAKMINDLOGONEWres2-p-500.png",
     },
+
 
     {
-      type: "article",
+      title:
+        "Mpower",
 
-      link: "https://parivarthan.org/contact/",
+      category:
+        "Mental Health Services",
 
-      url: "https://parivarthan.org/wp-content/uploads/2020/03/parivarthan-gray-logo.png",
+      description:
+        "Explore professional mental health services, awareness initiatives, and resources across different areas of emotional well-being.",
+
+      link:
+        "https://mpowerminds.com/contact",
+
+      image:
+        "https://mpowerminds.com/assets/img/root/Mpower%20Logo-04.svg",
     },
+
 
     {
-      type: "article",
+      title:
+        "Kashmir Lifeline",
 
-      link: "https://www.arpan.org.in/whatsapp-groups/",
+      category:
+        "Emotional Support",
 
-      url: "http://www.arpan.org.in/wp-content/uploads/2019/04/Arpan-English-Logo-cc-e1584098567989.jpg",
+      description:
+        "Explore mental health and emotional well-being resources and ways to connect with psychological support.",
+
+      link:
+        "https://www.kashmirlifeline.org/contact.php",
+
+      image:
+        "https://www.kashmirlifeline.org/static/img/logos/logo-kll.png",
     },
+
+
+    {
+      title:
+        "Parivarthan",
+
+      category:
+        "Counselling Support",
+
+      description:
+        "Explore counselling and mental health resources designed to provide emotional support for individuals and families.",
+
+      link:
+        "https://parivarthan.org/contact/",
+
+      image:
+        "https://parivarthan.org/wp-content/uploads/2020/03/parivarthan-gray-logo.png",
+    },
+
+
+    {
+      title:
+        "Arpan",
+
+      category:
+        "Community Support",
+
+      description:
+        "Explore community-oriented mental health resources and group-based spaces for connection and emotional support.",
+
+      link:
+        "https://www.arpan.org.in/whatsapp-groups/",
+
+      image:
+        "https://www.arpan.org.in/wp-content/uploads/2019/04/Arpan-English-Logo-cc-e1584098567989.jpg",
+    },
+
   ];
 
-  return (
-    <div className="support-groups">
-      <div className="groups-slider">
-        {group2.map((groups) => (
-          <div key={groups.link} className="groups-card">
-            <a href={groups.link} target="_blank" rel="noopener noreferrer">
-              <img src={groups.url} alt={groups.title} />
 
-              <h3>{groups.title}</h3>
-            </a>
-          </div>
-        ))}
+  return (
+
+    <section
+      className="
+        support-resource-section
+        support-organisations
+      "
+    >
+
+      <div className="support-section-heading">
+
+        <span></span>
+
+        <div>
+
+          <h2>
+            Looking for broader support?
+          </h2>
+
+          <p>
+            These organisations offer mental health resources,
+            counselling information, community programs, or ways
+            to connect with additional support.
+          </p>
+
+        </div>
+
       </div>
-    </div>
+
+
+      <div className="groups-slider">
+
+        {organisations.map(
+          (organisation) => (
+
+            <article
+              key={
+                organisation.title
+              }
+              className="
+                groups-card
+                organisation-card
+              "
+            >
+
+              <div
+                className="
+                  groups-card-image
+                  organisation-logo
+                "
+              >
+
+                <img
+                  src={
+                    organisation.image
+                  }
+                  alt={
+                    `${organisation.title} logo`
+                  }
+                  loading="lazy"
+                />
+
+                <span className="groups-card-category">
+                  {organisation.category}
+                </span>
+
+              </div>
+
+
+              <div className="groups-card-content">
+
+                <h3>
+                  {organisation.title}
+                </h3>
+
+
+                <p>
+                  {organisation.description}
+                </p>
+
+
+                <a
+                  href={
+                    organisation.link
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="groups-card-link"
+                >
+
+                  Visit organisation
+
+                  <span aria-hidden="true">
+                    →
+                  </span>
+
+                </a>
+
+              </div>
+
+            </article>
+
+          )
+        )}
+
+      </div>
+
+    </section>
+
   );
+
 };
+
 
 export default SupportGroups2;

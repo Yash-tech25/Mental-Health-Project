@@ -1,4 +1,4 @@
-import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -6,15 +6,27 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-content">
+
+        <div className="footer-brand">
+          <h2>MANORA</h2>
+
+          <p>
+            A space to understand your mind, reflect,
+            and care for your well-being.
+          </p>
+        </div>
+
         <div className="footer-links">
-          <a href="/Home">Home</a>
-          <a href="Volunteer">About</a>
-          <a href="Articles">Resources</a>
-          <a href="ContactUs">Contact</a>
+          <Link to="/about">About Us</Link>
+          <Link to="/contact">Contact Us</Link>
         </div>
+
+        <div className="footer-divider"></div>
+
         <div className="footer-copyright">
-          &copy; {currentYear} SUKOON. All rights reserved.
+          &copy; {currentYear} MANORA. All rights reserved.
         </div>
+
       </div>
     </footer>
   );

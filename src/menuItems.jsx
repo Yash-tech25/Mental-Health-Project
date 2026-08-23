@@ -1,77 +1,84 @@
-import React, { useState } from "react";
-import { signOut } from "firebase/auth";
-import { auth } from "./components/firebase-config";
-
 const getMenuItems = () => {
-  const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"));
-
-  const signUserOut = () => {
-    signOut(auth).then(() => {
-      localStorage.clear();
-      setIsAuth(false);
-      window.location.pathname = "/login";
-    });
-  };
 
   const menuItems = [
+
     {
-      title: 'Home',
-      url: '/',
+      title: "Home",
+      url: "/",
     },
+
     {
-      title: 'Resources',
+      title: "Resources",
       submenu: [
+
         {
-          title: 'Articles',
-          url: 'articles',
+          title: "Articles",
+          url: "/articles",
         },
+
         {
-          title: 'Initiatives',
-          url: 'initiatives',
+          title: "Initiatives",
+          url: "/initiatives",
         },
+
       ],
     },
+
     {
-      title: 'Social',
+      title: "Well Being",
       submenu: [
+
         {
-          title: 'Groups',
-          // url: 'support-groups',
+          title: "Mood Tracker",
+          url: "/mood-tracker",
         },
+
         {
-          title: 'Blogs',
-          // url: 'blogs',
+          title: "Journal",
+          url: "/daily-journal",
         },
+
         {
-          title: 'Quiz',
-          // url: 'quiz',
+          title: "Wellness Tracker",
+          url: "/wellness-tracker",
         },
+
         {
-          title: 'Relax',
-          // url: 'relax',
+          title: "Quiz",
+          url: "/quiz",
         },
+
         {
-          title: 'Memes',
-          // url: 'memes',
+          title: "Relax",
+          url: "/relax",
         },
+
       ],
     },
+
     {
-      title: 'Contact',
+      title: "Social",
       submenu: [
+
         {
-          title: 'About Us',
-          // url: 'volunteer',
+          title: "Groups",
+          url: "/support-groups",
         },
+
         {
-          title: 'Contact Us',
-          // url: 'contact',
+          title: "Blogs",
+          url: "/blogs",
         },
+
       ],
     },
+
+    
+
   ];
 
   return menuItems;
+
 };
 
 export default getMenuItems;

@@ -1,118 +1,572 @@
-import React, { useState } from 'react';
-import emailjs from 'emailjs-com';
-import 'font-awesome/css/font-awesome.min.css';
+import {
+  useState
+} from "react";
+
+import emailjs from "emailjs-com";
+
+import "font-awesome/css/font-awesome.min.css";
+
 
 const ContactUs = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
+
+  // =========================================================
+  // EMAILJS CONFIG
+  // =========================================================
+
+  const emailJsServiceId =
+    import.meta.env.VITE_EMAILJS_SERVICE_ID;
+
+  const emailJsTemplateId =
+    import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+
+  const emailJsPublicKey =
+    import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+
+  // =========================================================
+  // FORM STATE
+  // =========================================================
+
+  const [
+    formData,
+    setFormData
+  ] = useState({
+
+    name:
+      "",
+
+    email:
+      "",
+
+    message:
+      "",
+
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
 
-    
-    emailjs
-      .sendForm('service_j6fpbne', 'template_8qfw96m', e.target, 'ocD6sjKNO1COawjro')
-      .then((result) => {
-        alert('Email sent successfully:', result.text);
-        setFormData({
-          name: '',
-          email: '',
-          message: '',
-        });
+  const [
+    sending,
+    setSending
+  ] = useState(
+    false
+  );
+
+
+  const [
+    status,
+    setStatus
+  ] = useState({
+
+    type:
+      "",
+
+    message:
+      "",
+
+  });
+
+
+  // =========================================================
+  // HANDLE INPUT CHANGE
+  // =========================================================
+
+  const handleChange = (
+    event
+  ) => {
+
+    const {
+      name,
+      value
+    } = event.target;
+
+
+    setFormData(
+      (previousData) => ({
+
+        ...previousData,
+
+        [name]:
+          value,
+
       })
-      .catch((error) => {
-        alert('Email sending failed:', error.text);
+    );
+
+
+    if (
+      status.message
+    ) {
+
+      setStatus({
+
+        type:
+          "",
+
+        message:
+          "",
+
       });
+
+    }
+
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+
+  // =========================================================
+  // SEND EMAIL
+  // =========================================================
+
+  const handleSubmit =
+    async (
+      event
+    ) => {
+
+      event.preventDefault();
+
+
+      if (
+        sending
+      ) {
+
+        return;
+
+      }
+
+
+      if (
+        !emailJsServiceId ||
+        !emailJsTemplateId ||
+        !emailJsPublicKey
+      ) {
+
+        console.error(
+          "EmailJS environment variables are missing."
+        );
+
+
+        setStatus({
+
+          type:
+            "error",
+
+          message:
+            "Contact form configuration is unavailable right now.",
+
+        });
+
+
+        return;
+
+      }
+
+
+      setSending(
+        true
+      );
+
+
+      setStatus({
+
+        type:
+          "",
+
+        message:
+          "",
+
+      });
+
+
+      try {
+
+        await emailjs.sendForm(
+
+          emailJsServiceId,
+
+          emailJsTemplateId,
+
+          event.currentTarget,
+
+          emailJsPublicKey
+
+        );
+
+
+        setStatus({
+
+          type:
+            "success",
+
+          message:
+            "Your message has been sent successfully. We'll get back to you soon.",
+
+        });
+
+
+        setFormData({
+
+          name:
+            "",
+
+          email:
+            "",
+
+          message:
+            "",
+
+        });
+
+      } catch (error) {
+
+        console.error(
+          "Email sending failed:",
+          error
+        );
+
+
+        setStatus({
+
+          type:
+            "error",
+
+          message:
+            "We couldn't send your message right now. Please try again.",
+
+        });
+
+      } finally {
+
+        setSending(
+          false
+        );
+
+      }
+
+    };
+
 
   return (
-    <div className="contact-container">
-      <div className="contact-info">
-        <h2>Contact Us</h2>
-        <div className="address">
-          <div className="icon">
-            <a href="https://maps.app.goo.gl/s2nv5jDxxppvi5Z6A" target="_blank" rel="noopener noreferrer">
-              <i className="fa fa-map-marker"></i>
-            </a>
+
+    <div className="contact-page">
+
+      <div className="contact-container">
+
+
+        {/* ===================================================
+            CONTACT INFORMATION
+        =================================================== */}
+
+        <div className="contact-info">
+
+          <div className="contact-heading-icon">
+            🌿
           </div>
-          <p>Jaypee Institute of Information Technology</p>
-        </div>
-        <div className="address">
-          <div className="icon">
-            <i className="fa fa-phone"></i>
+
+
+          <h2>
+            Get In Touch
+          </h2>
+
+
+          <p className="contact-intro">
+
+            Have a question, suggestion, or just want to reach out?
+            We'd be happy to hear from you.
+
+          </p>
+
+
+          <div className="contact-details">
+
+
+            {/* LOCATION */}
+
+            <div className="contact-detail-card">
+
+              <div className="contact-detail-icon">
+
+                <i
+                  className="fa fa-map-marker"
+                  aria-hidden="true"
+                />
+
+              </div>
+
+
+              <div>
+
+                <span className="contact-detail-label">
+                  Location
+                </span>
+
+
+                <p>
+                  VIT Bhopal University
+                </p>
+
+              </div>
+
+            </div>
+
+
+            {/* PHONE */}
+
+            <div className="contact-detail-card">
+
+              <div className="contact-detail-icon">
+
+                <i
+                  className="fa fa-phone"
+                  aria-hidden="true"
+                />
+
+              </div>
+
+
+              <div>
+
+                <span className="contact-detail-label">
+                  Phone
+                </span>
+
+
+                <p>
+                  +91 98279 XXXXX
+                </p>
+
+              </div>
+
+            </div>
+
+
+            {/* EMAIL */}
+
+            <div className="contact-detail-card">
+
+              <div className="contact-detail-icon">
+
+                <i
+                  className="fa fa-envelope"
+                  aria-hidden="true"
+                />
+
+              </div>
+
+
+              <div>
+
+                <span className="contact-detail-label">
+                  Email
+                </span>
+
+
+                <p>
+                  manora.support@gmail.com
+                </p>
+
+              </div>
+
+            </div>
+
           </div>
-          <p>+91 xxxxxxxx67</p>
+
         </div>
-        <div className="address">
-          <div className="icon">
-            <i className="fa fa-envelope"></i>
+
+
+        {/* ===================================================
+            CONTACT FORM
+        =================================================== */}
+
+        <div className="contact-form">
+
+          <div className="contact-form-header">
+
+            <span>
+              💬
+            </span>
+
+
+            <h3>
+              Send Us a Message
+            </h3>
+
+
+            <p>
+              Fill in the form below and we'll get back to you.
+            </p>
+
           </div>
-          <p>sukoon@gmail.com</p>
+
+
+          <form
+            onSubmit={
+              handleSubmit
+            }
+          >
+
+
+            {/* NAME */}
+
+            <div className="form-group">
+
+              <label
+                htmlFor="name"
+              >
+                Name
+              </label>
+
+
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Your name"
+                value={
+                  formData.name
+                }
+                onChange={
+                  handleChange
+                }
+                autoComplete="name"
+                required
+              />
+
+            </div>
+
+
+            {/* EMAIL */}
+
+            <div className="form-group">
+
+              <label
+                htmlFor="email"
+              >
+                Email
+              </label>
+
+
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="you@example.com"
+                value={
+                  formData.email
+                }
+                onChange={
+                  handleChange
+                }
+                autoComplete="email"
+                required
+              />
+
+            </div>
+
+
+            {/* MESSAGE */}
+
+            <div className="form-group">
+
+              <label
+                htmlFor="message"
+              >
+                Message
+              </label>
+
+
+              <textarea
+                id="message"
+                name="message"
+                rows="6"
+                placeholder="Write your message here..."
+                value={
+                  formData.message
+                }
+                onChange={
+                  handleChange
+                }
+                maxLength="3000"
+                required
+              />
+
+            </div>
+
+
+            {/* STATUS */}
+
+            {status.message && (
+
+              <div
+                className={
+                  `contact-status ${status.type}`
+                }
+                role="status"
+              >
+
+                <span>
+
+                  {status.type ===
+                  "success"
+                    ? "✓"
+                    : "!"}
+
+                </span>
+
+
+                <span>
+                  {status.message}
+                </span>
+
+              </div>
+
+            )}
+
+
+            {/* SUBMIT */}
+
+            <button
+              type="submit"
+              className="contact-submit-button"
+              disabled={
+                sending
+              }
+            >
+
+              {sending ? (
+
+                <>
+
+                  <span className="contact-spinner" />
+
+                  Sending...
+
+                </>
+
+              ) : (
+
+                <>
+
+                  Send Message
+
+                  <span className="contact-send-arrow">
+                    →
+                  </span>
+
+                </>
+
+              )}
+
+            </button>
+
+          </form>
+
         </div>
-        <div className="social-icons">
-          <a href="#" className="icon">
-            <i className="fa fa-facebook"></i>
-          </a>
-          <a href="#" className="icon">
-            <i className="fa fa-twitter"></i>
-          </a>
-          <a href="https://www.instagram.com/sukoonformentalhealth/" target="_blank" rel="noopener noreferrer" className="icon">
-            <i className="fa fa-instagram"></i>
-          </a>
-        </div>
+
       </div>
-      <div className="contact-form">
-        <h3>Send Us a Message</h3>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="name">Name</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="message">Message</label>
-            <textarea
-              id="message"
-              name="message"
-              rows="4"
-              value={formData.message}
-              onChange={handleChange}
-              required
-            ></textarea>
-          </div>
-          <button type="submit">Submit</button>
-        </form>
-      </div>
+
     </div>
+
   );
+
 };
+
 
 export default ContactUs;

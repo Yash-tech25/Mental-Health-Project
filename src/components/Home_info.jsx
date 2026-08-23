@@ -1,80 +1,227 @@
-import React, { Component, useState, useEffect, useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import image1 from "../images/home1-min.jpeg";
-import image2 from "../images/home2-min.jpeg";
+import { useRef } from "react";
+import { Link } from "react-router-dom";
+import {
+  motion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
+
+import image1 from "../images/homeimg1.png";
+import image2 from "../images/homeimg2.png";
 import image3 from "../images/home3-min.jpeg";
+
 
 const contentData = [
   {
-    imageSrc:
-    image1,
-    title: "Who We Are",
-    text: "Discover more about our organization and learn about our mission and initiatives to make a positive impact on mental health and well-being.",
-    link: "/Volunteer",
+    imageSrc: image1,
+
+    title: "A Space Built Around You",
+
+    text:
+      "Learn more about Manora and why we created a simple space for reflection, emotional awareness, relaxation, and everyday mental well-being.",
+
+    link: "/about",
+
+    linkText: "About Manora",
   },
+
   {
-    imageSrc:
-      image2,
-    title: "Take Our Diagnostic Quizzes",
-    text: "Discover our diagnostic quizzes designed to help you evaluate your mental well-being. Take a moment to explore and gain insights into your mental health.",
-    link: "/Quiz",
+    imageSrc: image2,
+
+    title: "Understand Yourself Better",
+
+    text:
+      "Explore self-reflection quizzes designed to help you notice emotional and behavioral patterns and become more aware of how you have been feeling.",
+
+    link: "/quiz",
+
+    linkText: "Explore Quizzes",
   },
+
   {
-    imageSrc:
-      image3,
-    title: "Mental Disorders",
-    text: "Discover valuable insights into mental disorders and their impact on individuals and society. Explore our dedicated page to learn more about mental health challenges and ways to address them.",
-    link: "/Articles",
+    imageSrc: image3,
+
+    title: "Learn About Mental Health",
+
+    text:
+      "Explore clear and accessible information about mental health conditions, their symptoms, possible treatments, and ways to seek appropriate support.",
+
+    link: "/articles",
+
+    linkText: "Read Articles",
   },
 ];
 
+
+// =========================================================
+// SCROLL ANIMATION WRAPPER
+// =========================================================
+
 function TextWrapper({ children }) {
-  const text = useRef(null);
+
+  const elementRef = useRef(null);
 
   const { scrollYProgress } = useScroll({
-    target: text,
-    offset: ["start end", "end "],
+    target: elementRef,
+
+    offset: [
+      "start 90%",
+      "end 20%",
+    ],
   });
 
-  const opacity = useTransform(scrollYProgress, [1, 0.8, 0], [1, 1, 0.8]);
-  const x = useTransform(scrollYProgress, [1, 0.6, 0], [0, 0, -1500]);
+
+  const opacity = useTransform(
+    scrollYProgress,
+    [0, 0.25, 1],
+    [0.3, 1, 1]
+  );
+
+
+  const y = useTransform(
+    scrollYProgress,
+    [0, 0.3, 1],
+    [35, 0, 0]
+  );
+
 
   return (
-    <motion.div ref={text} className="text-section" style={{ opacity, x }}>
+
+    <motion.div
+      ref={elementRef}
+      className="text-section"
+      style={{
+        opacity,
+        y,
+      }}
+    >
+
       {children}
+
     </motion.div>
   );
 }
 
+
+// =========================================================
+// HOME INFORMATION
+// =========================================================
+
 function Home_info() {
+
   return (
-    <div className="container-home">
-      {contentData.map((content, index) => (
-        <div className="image-container-home" key={index}>
-          <TextWrapper>
-            <img
-              src={content.imageSrc}
-              alt={content.title}
-              className="image-home"
-            />
-          </TextWrapper>
-          <div className="text-container-home">
-            <TextWrapper>
-              <div className="text-box-home">
-                <h2>{content.title}</h2>
-                <p>{content.text}</p>
-                <a
-                  href={content.link}
-                  rel="noopener noreferrer"
-                >
-                  Learn more
-                </a>
+
+    <section className="home-info-section">
+
+
+      {/* =====================================================
+          SECTION HEADER
+      ===================================================== */}
+
+      <div className="home-info-heading">
+
+        <span className="home-info-eyebrow">
+          🌿 Explore Manora
+        </span>
+
+        <h2>
+          Your well-being, one step at a time
+        </h2>
+
+        <p>
+          Whether you want to understand how you're feeling,
+          learn something new, or simply slow down for a moment,
+          Manora gives you a place to begin.
+        </p>
+
+      </div>
+
+
+      {/* =====================================================
+          CONTENT
+      ===================================================== */}
+
+      <div className="container-home">
+
+        {contentData.map(
+          (content, index) => (
+
+            <article
+              className={`image-container-home ${
+                index % 2 !== 0
+                  ? "home-info-reverse"
+                  : ""
+              }`}
+              key={content.title}
+            >
+
+
+              {/* IMAGE */}
+
+              <div className="home-info-image-side">
+
+                <TextWrapper>
+
+                  <img
+                    src={content.imageSrc}
+                    alt={content.title}
+                    className="image-home"
+                    loading="lazy"
+                  />
+
+                </TextWrapper>
+
               </div>
-            </TextWrapper>
-          </div>
-        </div>
-      ))}
-    </div>
+
+
+              {/* CONTENT */}
+
+              <div className="text-container-home">
+
+                <TextWrapper>
+
+                  <div className="text-box-home">
+
+                    
+
+
+                    <h3>
+                      {content.title}
+                    </h3>
+
+
+                    <p>
+                      {content.text}
+                    </p>
+
+
+                    <Link
+                      to={content.link}
+                      className="home-info-link"
+                    >
+
+                      {content.linkText}
+
+                      <span>
+                        →
+                      </span>
+
+                    </Link>
+
+                  </div>
+
+                </TextWrapper>
+
+              </div>
+
+            </article>
+
+          )
+        )}
+
+      </div>
+
+    </section>
   );
 }
 
